@@ -1,0 +1,83 @@
+/* CSS 변수 */
+:root {
+  --bg: #FBF7F2;
+  --primary: #C8956C;
+  --secondary: #E8D5B7;
+  --accent: #A0714F;
+  --text: #3D2B1F;
+  --white: #FFFFFF;
+  --shadow: rgba(160,113,79,0.15);
+  --radius: 12px;
+  --transition: 0.3s ease;
+  --max-width: 1200px;
+  --font-title: 'Nanum Myeongjo', serif;
+  --font-body: 'Nanum Gothic', sans-serif;
+}
+
+/* 리셋 */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height: 1.7; font-size: 16px; }
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+
+/* 공통 */
+.container { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
+section { padding: 80px 0; }
+.label { font-size: 13px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--primary); font-weight: 700; margin-bottom: 8px; }
+.label.center, .section-title.center { text-align: center; }
+.section-title { font-family: var(--font-title); font-size: clamp(1.6rem,3vw,2.4rem); font-weight: 800; color: var(--text); margin-bottom: 48px; line-height: 1.3; }
+
+/* 버튼 */
+.btn-primary {
+  display: inline-block; background: var(--primary); color: var(--white);
+  padding: 12px 28px; border-radius: 50px; font-family: var(--font-body);
+  font-size: 15px; font-weight: 700; border: 2px solid var(--primary);
+  cursor: pointer; transition: background var(--transition), transform var(--transition);
+}
+.btn-primary:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-2px); }
+.btn-outline {
+  display: inline-block; background: transparent; color: var(--white);
+  padding: 12px 28px; border-radius: 50px; font-size: 15px; font-weight: 700;
+  border: 2px solid var(--white); cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+.btn-outline:hover { background: var(--white); color: var(--accent); }
+
+/* 네비게이션 */
+#navbar {
+  position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+  transition: background var(--transition), box-shadow var(--transition);
+  background: transparent;
+}
+#navbar.scrolled { background: var(--white); box-shadow: 0 2px 16px var(--shadow); }
+.nav-inner {
+  max-width: var(--max-width); margin: 0 auto; padding: 0 24px;
+  height: 64px; display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo { font-family: var(--font-title); font-size: 20px; font-weight: 800; color: var(--white); display: flex; flex-direction: column; line-height: 1.1; transition: color var(--transition); }
+.nav-logo span { font-size: 10px; letter-spacing: 0.12em; font-family: var(--font-body); font-weight: 400; }
+#navbar.scrolled .nav-logo { color: var(--accent); }
+.nav-menu { display: flex; align-items: center; gap: 28px; }
+.nav-menu a { font-size: 14px; font-weight: 700; color: var(--white); transition: color var(--transition); }
+#navbar.scrolled .nav-menu a { color: var(--text); }
+.nav-menu a:hover { color: var(--primary); }
+#navbar.scrolled .nav-menu .btn-primary { color: var(--white); }
+.nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--white); border-radius: 2px; transition: background var(--transition); }
+#navbar.scrolled .nav-toggle span { background: var(--text); }
+
+/* 푸터 */
+#footer { background: var(--text); color: var(--secondary); padding: 48px 0 24px; }
+.footer-inner { display: flex; gap: 48px; flex-wrap: wrap; margin-bottom: 32px; }
+.footer-logo { font-family: var(--font-title); font-size: 20px; font-weight: 800; color: var(--white); margin-bottom: 4px; }
+.footer-brand p, .footer-contact p { font-size: 13px; line-height: 1.8; color: var(--secondary); }
+.footer-contact a:hover { color: var(--primary); }
+.footer-copy { text-align: center; font-size: 12px; color: #7a6055; border-top: 1px solid #5a3f30; padding-top: 20px; }
+
+/* 라이트박스 */
+.lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 2000; align-items: center; justify-content: center; }
+.lightbox.active { display: flex; }
+.lightbox img { max-width: 90vw; max-height: 85vh; border-radius: var(--radius); object-fit: contain; }
+.lightbox-close { position: absolute; top: 20px; right: 24px; background: none; border: none; color: var(--white); font-size: 36px; cursor: pointer; line-height: 1; }
