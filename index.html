@@ -1,266 +1,1028 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>래미안치과 | 광주 남구 보철 전문</title>
-  <meta name="description" content="광주광역시 남구 빅스포 옆 래미안치과. 보철과 전문의 이승호 원장. 임플란트·크라운·틀니 전문." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/sections.css" />
-  <link rel="stylesheet" href="css/responsive.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>래미안치과 | 광주 남구 보철 전문</title>
+    <meta name="description" content="광주광역시 남구 빅스포 옆 래미안치과. 보철과 전문의 이승호 원장. 임플란트·크라운·틀니 전문.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* ===== Reset & Base ===== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-bg: #F9F7F4;
+            --color-white: #FFFFFF;
+            --color-dark: #1A1A1A;
+            --color-text: #333333;
+            --color-text-light: #777777;
+            --color-accent: #B08D6E;
+            --color-accent-light: #D4BFA8;
+            --color-blue: #6B9CC4;
+            --color-line: #E5E0DA;
+            --font-sans: 'Noto Sans KR', sans-serif;
+            --font-serif: 'Playfair Display', serif;
+        }
+
+        html { scroll-behavior: smooth; font-size: 16px; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+        /* ===== Scrollbar ===== */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--color-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--color-accent-light); border-radius: 3px; }
+
+        /* ===== Loading Screen ===== */
+        .loader {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--color-dark);
+            z-index: 9999;
+            display: flex; align-items: center; justify-content: center; flex-direction: column;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        .loader.hidden { opacity: 0; visibility: hidden; }
+        .loader-logo {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            color: var(--color-white);
+            letter-spacing: 8px;
+            opacity: 0;
+            animation: fadeUp 1s ease forwards 0.3s;
+        }
+        .loader-bar {
+            width: 120px; height: 1px;
+            background: rgba(255,255,255,0.15);
+            margin-top: 24px; overflow: hidden; border-radius: 1px;
+        }
+        .loader-bar::after {
+            content: ''; display: block; width: 100%; height: 100%;
+            background: var(--color-accent-light);
+            animation: loadBar 1.8s ease forwards;
+        }
+
+        @keyframes loadBar { 0%{transform:translateX(-100%)} 100%{transform:translateX(0)} }
+        @keyframes fadeUp { 0%{opacity:0;transform:translateY(15px)} 100%{opacity:1;transform:translateY(0)} }
+
+        /* ===== Navigation ===== */
+        .nav {
+            position: fixed; top: 0; left: 0;
+            width: 100%; z-index: 1000;
+            padding: 0 60px; height: 80px;
+            display: flex; align-items: center; justify-content: space-between;
+            transition: background 0.4s ease, box-shadow 0.4s ease;
+        }
+        .nav.scrolled {
+            background: rgba(249,247,244,0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 1px 0 var(--color-line);
+        }
+        .nav-logo {
+            display: flex; align-items: center; gap: 10px;
+            font-weight: 700; font-size: 1.1rem; letter-spacing: 1px;
+        }
+        .nav-logo svg { width: 32px; height: 32px; }
+        .nav-links { display: flex; gap: 40px; list-style: none; }
+        .nav-links a {
+            font-size: 0.85rem; font-weight: 400; letter-spacing: 1px;
+            color: var(--color-text-light);
+            transition: color 0.3s ease; position: relative;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -4px; left: 0;
+            width: 0; height: 1px; background: var(--color-accent);
+            transition: width 0.3s ease;
+        }
+        .nav-links a:hover { color: var(--color-dark); }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-cta {
+            font-size: 0.8rem; font-weight: 500; letter-spacing: 1px;
+            padding: 10px 28px;
+            border: 1px solid var(--color-dark); border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+        .nav-cta:hover { background: var(--color-dark); color: var(--color-white); }
+
+        /* Mobile menu */
+        .nav-hamburger {
+            display: none; flex-direction: column; gap: 5px;
+            cursor: pointer; z-index: 1001;
+        }
+        .nav-hamburger span { width: 24px; height: 1.5px; background: var(--color-dark); transition: all 0.3s ease; }
+
+        /* ===== Hero Section ===== */
+        .hero {
+            height: 100vh; min-height: 700px;
+            display: flex; align-items: center;
+            position: relative; overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute; top: 0; right: 0;
+            width: 55%; height: 100%; overflow: hidden;
+        }
+        .hero-bg img { transform: scale(1.1); transition: transform 8s ease; }
+        .hero-bg.loaded img { transform: scale(1); }
+        .hero-bg::after {
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(to right, var(--color-bg) 0%, transparent 30%);
+        }
+        .hero-content {
+            position: relative; z-index: 2;
+            padding-left: 100px; max-width: 600px;
+        }
+        .hero-label {
+            font-size: 0.75rem; font-weight: 500; letter-spacing: 4px;
+            color: var(--color-accent); margin-bottom: 16px;
+            opacity: 0; transform: translateY(20px);
+        }
+        .hero-tagline {
+            font-size: 1.25rem; font-weight: 700; letter-spacing: 0px;
+            color: var(--color-dark); margin-bottom: 20px;
+            opacity: 0; transform: translateY(20px);
+            border-left: 3px solid var(--color-accent);
+            padding-left: 14px;
+            line-height: 1.5;
+        }
+        .hero-title {
+            font-size: 3.5rem; font-weight: 900; line-height: 1.25;
+            color: var(--color-dark); margin-bottom: 24px;
+            opacity: 0; transform: translateY(30px);
+        }
+        .hero-title em {
+            font-family: var(--font-serif); font-style: italic;
+            font-weight: 400; color: var(--color-accent);
+        }
+        .hero-desc {
+            font-size: 1rem; line-height: 1.8;
+            color: var(--color-text-light); margin-bottom: 48px;
+            opacity: 0; transform: translateY(30px);
+        }
+        .hero-buttons { display: flex; gap: 16px; opacity: 0; transform: translateY(30px); }
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 16px 36px;
+            background: var(--color-dark); color: var(--color-white);
+            font-size: 0.85rem; font-weight: 500; letter-spacing: 1px;
+            border-radius: 50px; border: none; cursor: pointer;
+            transition: all 0.4s ease;
+        }
+        .btn-primary:hover { background: var(--color-accent); transform: translateY(-2px); }
+        .btn-primary svg { width: 16px; height: 16px; transition: transform 0.3s ease; }
+        .btn-primary:hover svg { transform: translateX(4px); }
+        .btn-outline {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 16px 36px;
+            border: 1px solid var(--color-line);
+            color: var(--color-text); font-size: 0.85rem; font-weight: 500; letter-spacing: 1px;
+            border-radius: 50px; cursor: pointer; background: none;
+            transition: all 0.4s ease;
+        }
+        .btn-outline:hover { border-color: var(--color-dark); transform: translateY(-2px); }
+
+        .hero-scroll {
+            position: absolute; bottom: 40px; left: 50%;
+            transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center; gap: 8px; z-index: 2;
+        }
+        .hero-scroll span { font-size: 0.7rem; letter-spacing: 3px; color: var(--color-text-light); }
+        .scroll-line {
+            width: 1px; height: 40px; background: var(--color-line);
+            position: relative; overflow: hidden;
+        }
+        .scroll-line::after {
+            content: ''; position: absolute; top: -100%; left: 0;
+            width: 100%; height: 100%;
+            background: var(--color-accent);
+            animation: scrollDown 2s ease infinite;
+        }
+        @keyframes scrollDown { 0%{top:-100%} 100%{top:100%} }
+
+        /* ===== Section Commons ===== */
+        section { padding: 140px 100px; }
+        .section-label {
+            font-size: 0.7rem; font-weight: 500; letter-spacing: 5px;
+            color: var(--color-accent); margin-bottom: 16px;
+        }
+        .section-title {
+            font-size: 2.8rem; font-weight: 700; line-height: 1.3;
+            color: var(--color-dark); margin-bottom: 20px;
+        }
+        .section-title em { font-family: var(--font-serif); font-style: italic; font-weight: 400; }
+        .section-desc { font-size: 1rem; line-height: 1.9; color: var(--color-text-light); max-width: 500px; }
+
+        /* Reveal animation */
+        .reveal { opacity: 0; transform: translateY(50px); transition: opacity 0.8s ease, transform 0.8s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* ===== About Section ===== */
+        .about { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .about-image {
+            border-radius: 16px; overflow: hidden; height: 500px; position: relative;
+        }
+        .about-image::after {
+            content: ''; position: absolute; top: 20px; left: 20px;
+            width: 100%; height: 100%;
+            border: 1px solid var(--color-accent-light); border-radius: 16px; z-index: -1;
+        }
+        .about-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 50px; }
+        .stat-item { text-align: center; }
+        .stat-number { font-family: var(--font-serif); font-size: 2.5rem; font-weight: 700; color: var(--color-accent); }
+        .stat-label { font-size: 0.8rem; color: var(--color-text-light); margin-top: 4px; letter-spacing: 1px; }
+
+        /* ===== Services (Marquee) ===== */
+        .services-marquee { padding: 100px 0; overflow: hidden; background: var(--color-white); }
+        .services-marquee .section-label,
+        .services-marquee .section-title,
+        .services-marquee .section-desc { padding: 0 100px; }
+        .marquee-track {
+            display: flex; gap: 30px; margin-top: 60px;
+            animation: marquee 40s linear infinite; width: max-content;
+        }
+        .marquee-track:hover { animation-play-state: paused; }
+        @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+        .service-card {
+            flex-shrink: 0; width: 320px; padding: 48px 36px;
+            background: var(--color-bg); border-radius: 20px;
+            transition: all 0.4s ease; cursor: pointer;
+        }
+        .service-card:hover { background: var(--color-dark); transform: translateY(-8px); }
+        .service-card:hover .service-icon,
+        .service-card:hover .service-name,
+        .service-card:hover .service-desc-text { color: var(--color-white); }
+        .service-icon { width: 48px; height: 48px; margin-bottom: 24px; color: var(--color-accent); transition: color 0.4s ease; }
+        .service-icon svg { width: 100%; height: 100%; }
+        .service-name { font-size: 1.2rem; font-weight: 700; margin-bottom: 12px; color: var(--color-dark); transition: color 0.4s ease; }
+        .service-desc-text { font-size: 0.85rem; line-height: 1.7; color: var(--color-text-light); transition: color 0.4s ease; }
+
+        /* ===== Gallery (Horizontal Scroll) ===== */
+        .gallery { padding: 140px 0 140px 100px; }
+        .gallery-header {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            padding-right: 100px; margin-bottom: 60px;
+        }
+        .gallery-scroll {
+            display: flex; gap: 24px; overflow-x: auto; padding-bottom: 20px;
+            scroll-snap-type: x mandatory;
+            -ms-overflow-style: none; scrollbar-width: none;
+        }
+        .gallery-scroll::-webkit-scrollbar { display: none; }
+        .gallery-item {
+            flex-shrink: 0; width: 450px; height: 320px;
+            border-radius: 16px; overflow: hidden;
+            scroll-snap-align: start; position: relative; cursor: pointer;
+        }
+        .gallery-item::after {
+            content: ''; position: absolute; bottom: 0; left: 0;
+            width: 100%; height: 50%;
+            background: linear-gradient(transparent, rgba(0,0,0,0.4));
+            opacity: 0; transition: opacity 0.4s ease;
+        }
+        .gallery-item:hover::after { opacity: 1; }
+        .gallery-item img { transition: transform 0.6s ease; }
+        .gallery-item:hover img { transform: scale(1.05); }
+        .gallery-item-label {
+            position: absolute; bottom: 24px; left: 24px; z-index: 2;
+            color: var(--color-white); font-size: 0.85rem; font-weight: 500; letter-spacing: 1px;
+            opacity: 0; transform: translateY(10px); transition: all 0.4s ease;
+        }
+        .gallery-item:hover .gallery-item-label { opacity: 1; transform: translateY(0); }
+
+        /* ===== Features (Why Us) ===== */
+        .features {
+            background: var(--color-dark); color: var(--color-white);
+            border-radius: 40px; margin: 0 40px; padding: 140px 100px;
+        }
+        .features .section-label { color: var(--color-accent-light); }
+        .features .section-title { color: var(--color-white); }
+        .features .section-desc { color: rgba(255,255,255,0.5); }
+        .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 80px; }
+        .feature-item {
+            padding: 40px; border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px; transition: all 0.4s ease;
+        }
+        .feature-item:hover { border-color: var(--color-accent); background: rgba(255,255,255,0.03); transform: translateY(-4px); }
+        .feature-num { font-family: var(--font-serif); font-size: 3rem; font-weight: 700; color: rgba(255,255,255,0.08); margin-bottom: 20px; }
+        .feature-item:hover .feature-num { color: var(--color-accent); }
+        .feature-name { font-size: 1.15rem; font-weight: 700; margin-bottom: 12px; }
+        .feature-desc { font-size: 0.85rem; line-height: 1.8; color: rgba(255,255,255,0.45); }
+
+        /* ===== Testimonial ===== */
+        .testimonial { text-align: center; max-width: 800px; margin: 0 auto; padding: 160px 40px; }
+        .testimonial-quote { font-size: 1.6rem; font-weight: 300; line-height: 1.8; color: var(--color-dark); margin: 40px 0; }
+        .testimonial-quote strong { font-weight: 700; color: var(--color-accent); }
+        .testimonial-author { font-size: 0.85rem; color: var(--color-text-light); letter-spacing: 2px; }
+
+        /* ===== Doctor Section ===== */
+        .doctor {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+            background: var(--color-white); border-radius: 40px;
+            margin: 0 40px; padding: 100px;
+        }
+        .doctor-image { height: 500px; border-radius: 20px; overflow: hidden; }
+        .doctor-info .section-desc { margin-bottom: 40px; }
+        .doctor-credentials { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+        .doctor-credentials li {
+            font-size: 0.85rem; color: var(--color-text-light);
+            padding-left: 20px; position: relative;
+        }
+        .doctor-credentials li::before {
+            content: ''; position: absolute; left: 0; top: 50%;
+            width: 6px; height: 6px; border-radius: 50%;
+            background: var(--color-accent); transform: translateY(-50%);
+        }
+
+        /* ===== Contact / CTA ===== */
+        .contact { text-align: center; padding: 160px 40px; }
+        .contact .section-title { font-size: 3.5rem; }
+        .contact .section-desc { max-width: 600px; margin: 0 auto 50px; }
+        .contact-buttons { display: flex; justify-content: center; gap: 16px; margin-bottom: 80px; }
+        .contact-info-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
+            max-width: 900px; margin: 0 auto;
+        }
+        .contact-info-item {
+            padding: 40px; background: var(--color-white); border-radius: 20px; transition: transform 0.3s ease;
+        }
+        .contact-info-item:hover { transform: translateY(-4px); }
+        .contact-info-icon { width: 36px; height: 36px; margin-bottom: 16px; color: var(--color-accent); }
+        .contact-info-icon svg { width: 100%; height: 100%; }
+        .contact-info-label { font-size: 0.7rem; letter-spacing: 3px; color: var(--color-text-light); margin-bottom: 8px; }
+        .contact-info-value { font-size: 1rem; font-weight: 700; color: var(--color-dark); }
+        .contact-info-value small { font-size: 0.8rem; font-weight: 400; color: var(--color-text-light); display: block; margin-top: 4px; }
+
+        /* ===== Map Section ===== */
+        .map-section { padding: 0 40px 40px; }
+        .map-container { border-radius: 30px; overflow: hidden; height: 400px; background: var(--color-line); position: relative; }
+        .map-container iframe { width: 100%; height: 100%; border: none; }
+        .map-overlay {
+            position: absolute; bottom: 30px; left: 30px;
+            background: var(--color-white); padding: 24px 32px;
+            border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        .map-overlay-title { font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
+        .map-overlay-addr { font-size: 0.85rem; color: var(--color-text-light); }
+
+        /* ===== Footer ===== */
+        .footer {
+            background: var(--color-dark); color: rgba(255,255,255,0.4);
+            padding: 80px 100px; border-radius: 40px 40px 0 0; margin: 0 40px;
+        }
+        .footer-top {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            margin-bottom: 60px; padding-bottom: 60px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .footer-logo { font-size: 1.3rem; font-weight: 700; color: var(--color-white); letter-spacing: 2px; }
+        .footer-links { display: flex; gap: 60px; }
+        .footer-col h4 {
+            font-size: 0.7rem; letter-spacing: 3px; color: rgba(255,255,255,0.25);
+            margin-bottom: 20px; text-transform: uppercase;
+        }
+        .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+        .footer-col a { font-size: 0.85rem; color: rgba(255,255,255,0.5); transition: color 0.3s ease; }
+        .footer-col a:hover { color: var(--color-white); }
+        .footer-bottom { display: flex; justify-content: space-between; font-size: 0.75rem; }
+
+        /* ===== Mobile Responsive ===== */
+        @media (max-width: 1024px) {
+            section { padding: 100px 40px; }
+            .hero-content { padding-left: 40px; }
+            .hero-title { font-size: 2.5rem; }
+            .section-title { font-size: 2.2rem; }
+            .about { grid-template-columns: 1fr; gap: 40px; }
+            .about-image { height: 350px; }
+            .features { margin: 0 20px; padding: 80px 40px; }
+            .features-grid { grid-template-columns: 1fr 1fr; }
+            .doctor { grid-template-columns: 1fr; margin: 0 20px; padding: 60px 40px; }
+            .doctor-image { height: 350px; }
+            .gallery { padding-left: 40px; }
+            .gallery-header { padding-right: 40px; }
+            .gallery-item { width: 340px; height: 240px; }
+            .services-marquee .section-label,
+            .services-marquee .section-title,
+            .services-marquee .section-desc { padding: 0 40px; }
+            .contact-info-grid { grid-template-columns: 1fr; max-width: 400px; }
+            .footer { padding: 60px 40px; margin: 0 20px; }
+            .footer-top { flex-direction: column; gap: 40px; }
+            .nav { padding: 0 40px; }
+        }
+
+        @media (max-width: 768px) {
+            .nav { padding: 0 24px; }
+            .nav-links, .nav-cta { display: none; }
+            .nav-hamburger { display: flex; }
+            section { padding: 80px 24px; }
+            .hero { min-height: 100vh; }
+            .hero-bg { width: 100%; opacity: 0.3; }
+            .hero-content { padding: 0 24px; max-width: 100%; }
+            .hero-title { font-size: 2rem; }
+            .hero-desc { font-size: 0.9rem; }
+            .hero-buttons { flex-direction: column; }
+            .section-title { font-size: 1.8rem; }
+            .about-stats { grid-template-columns: repeat(3, 1fr); gap: 15px; }
+            .stat-number { font-size: 1.8rem; }
+            .features { margin: 0; border-radius: 24px; padding: 60px 24px; }
+            .features-grid { grid-template-columns: 1fr; }
+            .doctor { margin: 0; border-radius: 24px; padding: 40px 24px; }
+            .contact .section-title { font-size: 2rem; }
+            .contact-buttons { flex-direction: column; align-items: center; }
+            .gallery { padding-left: 24px; }
+            .gallery-header { padding-right: 24px; flex-direction: column; align-items: flex-start; gap: 16px; }
+            .gallery-item { width: 280px; height: 200px; }
+            .services-marquee { padding: 80px 0; }
+            .services-marquee .section-label,
+            .services-marquee .section-title,
+            .services-marquee .section-desc { padding: 0 24px; }
+            .service-card { width: 260px; padding: 36px 28px; }
+            .map-section { padding: 0; }
+            .map-container { border-radius: 0; }
+            .footer { margin: 0; border-radius: 24px 24px 0 0; padding: 40px 24px; }
+            .footer-links { flex-direction: column; gap: 30px; }
+            .footer-bottom { flex-direction: column; gap: 8px; }
+        }
+
+        /* ===== Mobile Menu Overlay ===== */
+        .mobile-menu {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--color-bg); z-index: 999;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 32px;
+            opacity: 0; visibility: hidden; transition: all 0.4s ease;
+        }
+        .mobile-menu.open { opacity: 1; visibility: visible; }
+        .mobile-menu a { font-size: 1.5rem; font-weight: 700; color: var(--color-dark); letter-spacing: 2px; transition: color 0.3s ease; }
+        .mobile-menu a:hover { color: var(--color-accent); }
+
+        /* ===== Cursor Dot ===== */
+        .cursor-dot {
+            width: 8px; height: 8px;
+            background: var(--color-accent); border-radius: 50%;
+            position: fixed; pointer-events: none; z-index: 10000;
+            mix-blend-mode: difference; transition: transform 0.15s ease; display: none;
+        }
+        @media (hover: hover) { .cursor-dot { display: block; } }
+    </style>
 </head>
 <body>
 
-<!-- 네비게이션 -->
-<nav id="navbar">
-  <div class="nav-inner">
-    <a href="#hero" class="nav-logo">래미안치과<span>RAEMIAN DENTAL CLINIC</span></a>
-    <button class="nav-toggle" aria-label="메뉴 열기"><span></span><span></span><span></span></button>
-    <ul class="nav-menu">
-      <li><a href="#about">원장소개</a></li>
-      <li><a href="#services">진료안내</a></li>
-      <li><a href="#facility">시설안내</a></li>
-      <li><a href="#trust">신뢰</a></li>
-      <li><a href="#reservation">예약</a></li>
-      <li><a href="#location">오시는길</a></li>
-      <li><a href="tel:062-673-2828" class="btn-primary nav-cta">062-673-2828</a></li>
-    </ul>
-  </div>
-</nav>
-
-<!-- Hero -->
-<section id="hero">
-  <div class="hero-bg" style="background-image:url('images/hero-desk.jpg');"></div>
-  <div class="hero-overlay"></div>
-  <div class="hero-content">
-    <p class="hero-sub">광주 남구 보철 전문 치과</p>
-    <h1>건강한 치아,<br />아름다운 미소</h1>
-    <p class="hero-tagline">한 차원 높은 진료를 약속하는 래미안치과</p>
-    <p class="hero-desc">치의학 박사·보철과 전문의 이승호 원장이<br />정성껏 진료합니다.</p>
-    <div class="hero-btns">
-      <a href="#reservation" class="btn-primary">온라인 예약</a>
-      <a href="#services" class="btn-outline">진료안내 보기</a>
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <div class="loader-logo">RAEMIAN DENTAL</div>
+        <div class="loader-bar"></div>
     </div>
-  </div>
-</section>
 
-<!-- 원장 소개 -->
-<section id="about">
-  <div class="container">
-    <div class="about-grid">
-      <div class="about-img">
-        <img src="images/doctor.jpg" alt="래미안치과 이승호 원장" />
-      </div>
-      <div class="about-text">
-        <p class="label">원장 소개</p>
-        <h2 class="section-title">이승호 원장</h2>
-        <p class="about-degree">치의학 박사 · 보철과 전문의</p>
-        <p>환자 한 분 한 분의 구강 건강과 삶의 질을 최우선으로 생각합니다. 20년 이상의 임상 경험을 바탕으로 임플란트, 크라운, 의치 등 보철 치료를 전문적으로 시행합니다.</p>
-        <ul class="about-career">
-          <li>조선대학교 치과대학 졸업</li><li>조선대학교 대학원 치의학 박사</li>
-          <li>보철과 전문의 취득</li><li>대한치과보철학회 정회원</li>
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" id="cursor"></div>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <a href="#" class="nav-logo">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 4C14 4 10 8 10 14C10 22 16 32 20 36C24 32 30 22 30 14C30 8 26 4 20 4Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                <path d="M16 14C16 12 18 10 20 10C22 10 24 12 24 14C24 16 22 18 20 20C18 18 16 16 16 14Z" fill="currentColor" opacity="0.3"/>
+            </svg>
+            래미안치과
+        </a>
+        <ul class="nav-links">
+            <li><a href="#about">원장소개</a></li>
+            <li><a href="#services">진료안내</a></li>
+            <li><a href="#gallery">시설안내</a></li>
+            <li><a href="#doctor">의료진</a></li>
+            <li><a href="#contact">오시는 길</a></li>
         </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 진료 항목 -->
-<section id="services">
-  <div class="container">
-    <p class="label center">진료안내</p>
-    <h2 class="section-title center">전문 진료 항목</h2>
-    <div class="services-grid">
-
-      <div class="service-card" data-animate="fade-up">
-        <div class="card-icon">
-          <!-- 임플란트: 치근+기둥 모양 -->
-          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <ellipse cx="32" cy="14" rx="14" ry="10" stroke="currentColor" stroke-width="3"/>
-            <rect x="28" y="24" width="8" height="28" rx="4" stroke="currentColor" stroke-width="3"/>
-            <line x1="22" y1="44" x2="42" y2="44" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-          </svg>
+        <a href="tel:062-673-2828" class="nav-cta">062-673-2828</a>
+        <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
+            <span></span><span></span><span></span>
         </div>
-        <h3>임플란트</h3>
-        <p>자연 치아와 가장 유사한 기능과 심미성. 정밀 진단으로 안전하고 오래가는 임플란트 식립.</p>
-      </div>
+    </nav>
 
-      <div class="service-card" data-animate="fade-up">
-        <div class="card-icon">
-          <!-- 크라운: 왕관 모양 -->
-          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M12 28C12 16 20 10 32 10C44 10 52 16 52 28L48 52H16Z" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
-            <path d="M22 10L24 28M32 10L32 28M42 10L40 28" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#about" onclick="toggleMenu()">원장소개</a>
+        <a href="#services" onclick="toggleMenu()">진료안내</a>
+        <a href="#gallery" onclick="toggleMenu()">시설안내</a>
+        <a href="#doctor" onclick="toggleMenu()">의료진</a>
+        <a href="#contact" onclick="toggleMenu()">오시는 길</a>
+        <a href="tel:062-673-2828" onclick="toggleMenu()">062-673-2828</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-bg" id="heroBg">
+            <img src="images/exterior.jpg" alt="래미안치과 외관">
         </div>
-        <h3>보철 (크라운·브릿지)</h3>
-        <p>손상된 치아를 완벽하게 복원. 심미적이고 기능적인 크라운·브릿지 전문 시술.</p>
-      </div>
-
-      <div class="service-card" data-animate="fade-up">
-        <div class="card-icon">
-          <!-- 틀니: 치열 모양 -->
-          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M8 32Q8 20 32 18Q56 20 56 32Q56 44 32 46Q8 44 8 32Z" stroke="currentColor" stroke-width="3"/>
-            <ellipse cx="20" cy="30" rx="5" ry="7" stroke="currentColor" stroke-width="2"/>
-            <ellipse cx="32" cy="29" rx="5" ry="8" stroke="currentColor" stroke-width="2"/>
-            <ellipse cx="44" cy="30" rx="5" ry="7" stroke="currentColor" stroke-width="2"/>
-          </svg>
+        <div class="hero-content">
+            <p class="hero-label">RAEMIAN DENTAL CLINIC · 광주 남구 보철 전문</p>
+            <p class="hero-tagline">한 차원 높은 진료를 약속하는 래미안치과</p>
+            <h1 class="hero-title">건강한 치아,<br><em>아름다운 미소</em></h1>
+            <p class="hero-desc">
+                치의학 박사 · 보철과 전문의 이승호 원장이<br>
+                20년의 임상 경험으로 정성껏 진료합니다.
+            </p>
+            <div class="hero-buttons">
+                <a href="tel:062-673-2828" class="btn-primary">
+                    전화 예약하기
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+                <a href="#services" class="btn-outline">진료안내 보기</a>
+            </div>
         </div>
-        <h3>틀니 (의치)</h3>
-        <p>보철과 전문의의 정밀한 교합 설계. 편안하게 맞는 완전·부분 의치 제작.</p>
-      </div>
-
-      <div class="service-card" data-animate="fade-up">
-        <div class="card-icon">
-          <!-- 일반치료: 하트형 치아 -->
-          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M20 8C14 8 10 14 10 20C10 30 20 40 32 56C44 40 54 30 54 20C54 14 50 8 44 8C40 8 36 11 32 16C28 11 24 8 20 8Z" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
-            <path d="M24 32L28 36L36 26" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+        <div class="hero-scroll">
+            <span>SCROLL</span>
+            <div class="scroll-line"></div>
         </div>
-        <h3>일반치료 (충치·신경)</h3>
-        <p>충치 초기 발견부터 신경치료까지. 통증 없이 빠르게 회복할 수 있도록 돕습니다.</p>
-      </div>
+    </section>
 
-    </div>
-  </div>
-</section>
-
-<!-- 시설 갤러리 -->
-<section id="facility">
-  <div class="container">
-    <p class="label center">시설안내</p>
-    <h2 class="section-title center">쾌적한 진료 환경</h2>
-  </div>
-  <!-- 갤러리는 전체 너비로 표시 -->
-  <div class="gallery-carousel">
-    <button class="gallery-arrow gallery-prev" aria-label="이전 사진">&#10094;</button>
-    <div class="gallery-scroll">
-      <div class="gallery-item"><img class="gallery-img" src="images/waiting-room.jpg" alt="대기실" /><div class="gallery-caption">대기실</div></div>
-      <div class="gallery-item"><img class="gallery-img" src="images/treatment-room.jpg" alt="진료실" /><div class="gallery-caption">진료실</div></div>
-      <div class="gallery-item"><img class="gallery-img" src="images/reception.jpg" alt="접수실" /><div class="gallery-caption">접수실</div></div>
-      <div class="gallery-item"><img class="gallery-img" src="images/xray-machine.jpg" alt="디지털 X-Ray 장비" /><div class="gallery-caption">디지털 X-Ray</div></div>
-      <div class="gallery-item"><img class="gallery-img" src="images/autoclave.jpg" alt="멸균 장비" /><div class="gallery-caption">멸균 장비</div></div>
-      <div class="gallery-item"><img class="gallery-img" src="images/treatment-open.jpg" alt="진료 장면" /><div class="gallery-caption">진료 장면</div></div>
-      <div class="gallery-item"><img class="gallery-img" src="images/reception-new.jpg" alt="접수실 및 대기실" /><div class="gallery-caption">접수실 · 대기실</div></div>
-      <div class="gallery-item"><img class="gallery-img" src="images/treatment-room-new.jpg" alt="치료실" /><div class="gallery-caption">치료실</div></div>
-      <div class="gallery-item"><img class="gallery-img" src="images/exterior-new.jpg" alt="래미안치과 입구" /><div class="gallery-caption">병원 입구</div></div>
-    </div>
-    <button class="gallery-arrow gallery-next" aria-label="다음 사진">&#10095;</button>
-  </div>
-</section>
-
-<!-- 신뢰 / 자격 -->
-<section id="trust">
-  <div class="container">
-    <p class="label center">신뢰</p>
-    <h2 class="section-title center">검증된 실력, 믿을 수 있는 치과</h2>
-    <div class="trust-grid">
-      <div class="trust-item"><img src="images/certificates.jpg" alt="자격증 및 수료증" /><p>학위증 · 전문의 자격증 · 수료증</p></div>
-      <div class="trust-item"><img src="images/news-articles.jpg" alt="언론 보도" /><p>언론 보도 및 학술 발표</p></div>
-    </div>
-    <div class="trust-stats">
-      <div class="stat"><strong>20<span>년+</span></strong><p>임상 경험</p></div><div class="stat"><strong>5,000<span>+</span></strong><p>임플란트 시술</p></div><div class="stat"><strong>1<span>위</span></strong><p>환자 만족 재방문율</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- 예약 폼 -->
-<section id="reservation">
-  <div class="container">
-    <p class="label center">온라인 예약</p>
-    <h2 class="section-title center">간편하게 예약하세요</h2>
-    <form class="reservation-form" id="reservationForm">
-      <div class="form-row">
-        <div class="form-group"><label for="name">이름 <span>*</span></label><input type="text" id="name" name="name" placeholder="홍길동" required /></div>
-        <div class="form-group"><label for="phone">연락처 <span>*</span></label><input type="tel" id="phone" name="phone" placeholder="010-0000-0000" required /></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label for="date">희망 날짜 <span>*</span></label><input type="date" id="date" name="date" required /></div>
-        <div class="form-group">
-          <label for="treatment">진료 항목</label>
-          <select id="treatment" name="treatment">
-            <option value="">선택해주세요</option><option value="implant">임플란트</option>
-            <option value="crown">보철 (크라운·브릿지)</option><option value="denture">틀니 (의치)</option>
-            <option value="general">일반치료 (충치·신경)</option><option value="consult">상담만</option>
-          </select>
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="about-image reveal">
+            <img src="images/doctor.jpg" alt="래미안치과 이승호 원장">
         </div>
-      </div>
-      <div class="form-group full">
-        <label for="memo">메모 (증상 또는 문의사항)</label>
-        <textarea id="memo" name="memo" rows="4" placeholder="불편한 증상이나 문의사항을 자유롭게 적어주세요."></textarea>
-      </div>
-      <p class="form-notice">* 예약 확인 후 담당자가 연락드립니다. 긴급 시 전화: <a href="tel:062-673-2828">062-673-2828</a></p>
-      <a href="tel:062-673-2828" class="btn-primary btn-submit">📞 062-673-2828 전화 예약</a>
-    </form>
-    <!-- 예약 완료 메시지 (폼 제출 후 표시) -->
-    <div id="form-success">
-      <div class="success-icon">✅</div>
-      <p><strong>예약 신청이 접수되었습니다!</strong><br />담당자 확인 후 연락드리겠습니다.<br />긴급 시 전화로 문의해 주세요: <a href="tel:062-673-2828">062-673-2828</a></p>
+        <div class="about-text">
+            <p class="section-label reveal">ABOUT US</p>
+            <h2 class="section-title reveal">
+                환자를 먼저 생각하는<br><em>따뜻한 진료</em>
+            </h2>
+            <p class="section-desc reveal">
+                래미안치과는 보철과 전문의 이승호 원장이 직접 진료하는
+                광주 남구의 보철 전문 치과입니다.<br><br>
+                20년 이상의 임상 경험을 바탕으로 임플란트, 크라운,
+                브릿지, 틀니 등 보철 치료를 전문적으로 시행합니다.
+            </p>
+            <div class="about-stats reveal">
+                <div class="stat-item">
+                    <div class="stat-number">20+</div>
+                    <div class="stat-label">임상 경력(년)</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">5천+</div>
+                    <div class="stat-label">임플란트 시술</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">전문의</div>
+                    <div class="stat-label">보철과 전문의</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Marquee Section -->
+    <section class="services-marquee" id="services">
+        <p class="section-label reveal">SERVICES</p>
+        <h2 class="section-title reveal">전문적인 <em>치과 진료</em></h2>
+        <p class="section-desc reveal">보철과 전문의가 직접 시행하는 정밀 진료로 최상의 결과를 약속드립니다.</p>
+        <div class="marquee-track">
+            <!-- 카드 1벌 -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <ellipse cx="24" cy="12" rx="10" ry="7"/>
+                        <rect x="20" y="19" width="8" height="20" rx="3"/>
+                        <line x1="16" y1="33" x2="32" y2="33"/>
+                    </svg>
+                </div>
+                <div class="service-name">임플란트</div>
+                <p class="service-desc-text">자연 치아와 가장 유사한 기능과 심미성. 정밀 진단으로 안전하고 오래가는 임플란트 식립.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10 22C10 12 16 8 24 8C32 8 38 12 38 22L36 40H12Z"/>
+                        <path d="M17 8L18 22M24 8V22M31 8L30 22" opacity="0.4"/>
+                    </svg>
+                </div>
+                <div class="service-name">보철 (크라운·브릿지)</div>
+                <p class="service-desc-text">손상된 치아를 완벽하게 복원. 심미적이고 기능적인 크라운·브릿지 전문 시술.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 24Q6 15 24 14Q42 15 42 24Q42 33 24 34Q6 33 6 24Z"/>
+                        <ellipse cx="15" cy="23" rx="4" ry="5" opacity="0.6"/>
+                        <ellipse cx="24" cy="22" rx="4" ry="6" opacity="0.6"/>
+                        <ellipse cx="33" cy="23" rx="4" ry="5" opacity="0.6"/>
+                    </svg>
+                </div>
+                <div class="service-name">틀니 (의치)</div>
+                <p class="service-desc-text">보철과 전문의의 정밀한 교합 설계. 편안하게 맞는 완전·부분 의치 제작.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 6C11 6 8 10 8 15C8 23 16 31 24 42C32 31 40 23 40 15C40 10 37 6 33 6C30 6 27 8 24 12C21 8 18 6 15 6Z"/>
+                        <path d="M18 24l4 4 8-8" opacity="0.5"/>
+                    </svg>
+                </div>
+                <div class="service-name">일반치료 (충치·신경)</div>
+                <p class="service-desc-text">충치 초기 발견부터 신경치료까지. 통증 없이 빠르게 회복할 수 있도록 돕습니다.</p>
+            </div>
+            <!-- 무한 스크롤용 복제 -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <ellipse cx="24" cy="12" rx="10" ry="7"/>
+                        <rect x="20" y="19" width="8" height="20" rx="3"/>
+                        <line x1="16" y1="33" x2="32" y2="33"/>
+                    </svg>
+                </div>
+                <div class="service-name">임플란트</div>
+                <p class="service-desc-text">자연 치아와 가장 유사한 기능과 심미성. 정밀 진단으로 안전하고 오래가는 임플란트 식립.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10 22C10 12 16 8 24 8C32 8 38 12 38 22L36 40H12Z"/>
+                        <path d="M17 8L18 22M24 8V22M31 8L30 22" opacity="0.4"/>
+                    </svg>
+                </div>
+                <div class="service-name">보철 (크라운·브릿지)</div>
+                <p class="service-desc-text">손상된 치아를 완벽하게 복원. 심미적이고 기능적인 크라운·브릿지 전문 시술.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 24Q6 15 24 14Q42 15 42 24Q42 33 24 34Q6 33 6 24Z"/>
+                        <ellipse cx="15" cy="23" rx="4" ry="5" opacity="0.6"/>
+                        <ellipse cx="24" cy="22" rx="4" ry="6" opacity="0.6"/>
+                        <ellipse cx="33" cy="23" rx="4" ry="5" opacity="0.6"/>
+                    </svg>
+                </div>
+                <div class="service-name">틀니 (의치)</div>
+                <p class="service-desc-text">보철과 전문의의 정밀한 교합 설계. 편안하게 맞는 완전·부분 의치 제작.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 6C11 6 8 10 8 15C8 23 16 31 24 42C32 31 40 23 40 15C40 10 37 6 33 6C30 6 27 8 24 12C21 8 18 6 15 6Z"/>
+                        <path d="M18 24l4 4 8-8" opacity="0.5"/>
+                    </svg>
+                </div>
+                <div class="service-name">일반치료 (충치·신경)</div>
+                <p class="service-desc-text">충치 초기 발견부터 신경치료까지. 통증 없이 빠르게 회복할 수 있도록 돕습니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery" id="gallery">
+        <div class="gallery-header">
+            <div>
+                <p class="section-label reveal">GALLERY</p>
+                <h2 class="section-title reveal">쾌적한 <em>진료 공간</em></h2>
+            </div>
+            <p class="section-desc reveal">
+                환자분들의 편안함을 최우선으로 설계한<br>
+                래미안치과의 공간을 둘러보세요.
+            </p>
+        </div>
+        <div class="gallery-scroll">
+            <div class="gallery-item reveal">
+                <img src="images/reception-new.jpg" alt="접수실 · 대기실">
+                <span class="gallery-item-label">접수실 · 대기실</span>
+            </div>
+            <div class="gallery-item reveal">
+                <img src="images/treatment-room-new.jpg" alt="치료실">
+                <span class="gallery-item-label">치료실</span>
+            </div>
+            <div class="gallery-item reveal">
+                <img src="images/exterior-new.jpg" alt="병원 입구">
+                <span class="gallery-item-label">병원 입구</span>
+            </div>
+            <div class="gallery-item reveal">
+                <img src="images/waiting-room.jpg" alt="대기실">
+                <span class="gallery-item-label">대기실</span>
+            </div>
+            <div class="gallery-item reveal">
+                <img src="images/treatment-room.jpg" alt="진료실">
+                <span class="gallery-item-label">진료실</span>
+            </div>
+            <div class="gallery-item reveal">
+                <img src="images/reception.jpg" alt="접수실">
+                <span class="gallery-item-label">접수실</span>
+            </div>
+            <div class="gallery-item reveal">
+                <img src="images/xray-machine.jpg" alt="디지털 X-Ray">
+                <span class="gallery-item-label">디지털 X-Ray</span>
+            </div>
+            <div class="gallery-item reveal">
+                <img src="images/autoclave.jpg" alt="멸균 장비">
+                <span class="gallery-item-label">멸균 장비</span>
+            </div>
+            <div class="gallery-item reveal">
+                <img src="images/treatment-open.jpg" alt="진료 장면">
+                <span class="gallery-item-label">진료 장면</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <p class="section-label reveal">WHY US</p>
+        <h2 class="section-title reveal">래미안치과를<br>선택하는 <em>이유</em></h2>
+        <div class="features-grid">
+            <div class="feature-item reveal">
+                <div class="feature-num">01</div>
+                <h3 class="feature-name">보철과 전문의 직접 진료</h3>
+                <p class="feature-desc">원장 이승호 보철과 전문의가 모든 진료를 직접 담당합니다. 전문의가 처음부터 끝까지 책임집니다.</p>
+            </div>
+            <div class="feature-item reveal">
+                <div class="feature-num">02</div>
+                <h3 class="feature-name">20년+ 임상 경험</h3>
+                <p class="feature-desc">20년 이상의 풍부한 임상 경험으로 복잡한 케이스도 안전하고 정확하게 치료합니다.</p>
+            </div>
+            <div class="feature-item reveal">
+                <div class="feature-num">03</div>
+                <h3 class="feature-name">정밀 맞춤 보철</h3>
+                <p class="feature-desc">최신 디지털 장비와 정밀 교합 설계로 자연치아처럼 편안한 보철물을 제공합니다.</p>
+            </div>
+            <div class="feature-item reveal">
+                <div class="feature-num">04</div>
+                <h3 class="feature-name">투명한 치료 과정</h3>
+                <p class="feature-desc">치료 전후 과정을 상세하게 설명드리고, 합리적인 비용으로 신뢰를 드립니다.</p>
+            </div>
+            <div class="feature-item reveal">
+                <div class="feature-num">05</div>
+                <h3 class="feature-name">철저한 감염 관리</h3>
+                <p class="feature-desc">1인 1기구 사용과 멸균 시스템으로 안전하고 위생적인 진료 환경을 보장합니다.</p>
+            </div>
+            <div class="feature-item reveal">
+                <div class="feature-num">06</div>
+                <h3 class="feature-name">체계적 사후 관리</h3>
+                <p class="feature-desc">치료 후에도 정기적인 검진과 관리로 건강한 구강 상태를 유지하도록 도와드립니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial -->
+    <div class="testimonial reveal">
+        <p class="section-label">PATIENT REVIEW</p>
+        <p class="testimonial-quote">
+            "임플란트가 두려웠는데, 이승호 원장님이
+            <strong>처음부터 끝까지 직접 설명하고 시술해 주셔서</strong>
+            너무 편안했어요. 보철과 전문의라 더 믿음이 갔습니다."
+        </p>
+        <p class="testimonial-author">--- 광주 남구 거주 환자</p>
     </div>
-  </div>
-</section>
 
-<!-- 오시는 길 -->
-<section id="location">
-  <div class="container">
-    <p class="label center">오시는 길</p>
-    <h2 class="section-title center">찾아오시는 방법</h2>
-    <div class="location-grid">
-      <div class="map-wrap">
-        <iframe
-          src="https://maps.google.com/maps?q=광주광역시+남구+서문대로+741&z=16&output=embed&hl=ko"
-          width="100%" height="400" style="border:0;" allowfullscreen loading="lazy"
-          title="래미안치과 지도"></iframe>
-      </div>
-      <div class="location-info">
-        <img src="images/exterior.jpg" alt="래미안치과 외관" class="exterior-img" />
-        <ul class="info-list">
-          <li><strong>주소</strong><span>광주광역시 남구 서문대로 741, 2F<br />(광주은행 2층 · 빅스포 옆 · 롯데리아 근처)</span></li>
-          <li><strong>전화</strong><span><a href="tel:062-673-2828">062-673-2828</a></span></li>
-          <li><strong>휴대폰</strong><span><a href="tel:010-4651-7898">010-4651-7898</a></span></li>
-          <li><strong>팩스</strong><span>062-673-2833</span></li>
-          <li><strong>이메일</strong><span><a href="mailto:konuskrone@hanmail.net">konuskrone@hanmail.net</a></span></li>
-          <li><strong>진료시간</strong><span>
-            월·화·수·금 09:00 – 18:00<br />
-            목요일 14:00 – 18:00 (오전 진료 없음)<br />
-            토요일 09:00 – 13:00<br />
-            일요일 · 공휴일 휴진
-          </span></li>
-        </ul>
-      </div>
+    <!-- Doctor Section -->
+    <section class="doctor" id="doctor">
+        <div class="doctor-image reveal">
+            <img src="images/doctor.jpg" alt="이승호 원장">
+        </div>
+        <div class="doctor-info">
+            <p class="section-label reveal">DOCTOR</p>
+            <h2 class="section-title reveal">
+                치의학 박사 · 보철과 전문의<br><em>이승호 원장</em>
+            </h2>
+            <p class="section-desc reveal">
+                환자 한 분 한 분의 구강 건강과 삶의 질을 최우선으로 생각합니다.
+                20년 이상의 임상 경험을 바탕으로 임플란트, 크라운,
+                의치 등 보철 치료를 전문적으로 시행합니다.
+            </p>
+            <ul class="doctor-credentials reveal">
+                <li>조선대학교 치과대학 졸업</li>
+                <li>조선대학교 대학원 치의학 박사</li>
+                <li>보철과 전문의 취득</li>
+                <li>대한치과보철학회 정회원</li>
+                <li>현 래미안치과 대표원장</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Contact CTA Section -->
+    <section class="contact" id="contact">
+        <p class="section-label reveal">CONTACT</p>
+        <h2 class="section-title reveal">
+            건강한 미소의 시작,<br><em>지금 상담하세요</em>
+        </h2>
+        <p class="section-desc reveal">
+            전화 또는 방문을 통해 부담 없이 상담받으실 수 있습니다.<br>
+            래미안치과가 여러분의 건강한 미소를 함께 만들어갑니다.
+        </p>
+        <div class="contact-buttons reveal">
+            <a href="tel:062-673-2828" class="btn-primary">
+                전화 상담하기
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            </a>
+            <a href="tel:010-4651-7898" class="btn-outline">휴대폰 상담</a>
+        </div>
+        <div class="contact-info-grid reveal">
+            <div class="contact-info-item">
+                <div class="contact-info-icon">
+                    <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 3C12.5 3 8 7.5 8 13c0 8 10 20 10 20s10-12 10-20c0-5.5-4.5-10-10-10z"/>
+                        <circle cx="18" cy="13" r="3.5" opacity="0.4"/>
+                    </svg>
+                </div>
+                <div class="contact-info-label">ADDRESS</div>
+                <div class="contact-info-value">광주광역시 남구 서문대로 741, 2F<br><small>(광주은행 2층 · 빅스포 옆 · 롯데리아 근처)</small></div>
+            </div>
+            <div class="contact-info-item">
+                <div class="contact-info-icon">
+                    <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="18" cy="18" r="14"/>
+                        <path d="M18 10v8l5.5 3.5" opacity="0.4"/>
+                    </svg>
+                </div>
+                <div class="contact-info-label">HOURS</div>
+                <div class="contact-info-value">
+                    월·화·수·금 09:00 - 18:00<br>
+                    목요일 14:00 - 18:00<br>
+                    토요일 09:00 - 13:00<br>
+                    <small>일요일·공휴일 휴진</small>
+                </div>
+            </div>
+            <div class="contact-info-item">
+                <div class="contact-info-icon">
+                    <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M30 25.4v3.6a2.4 2.4 0 01-2.6 2.4A23.8 23.8 0 014.6 8.6 2.4 2.4 0 017 6h3.6a2.4 2.4 0 012.4 2.1c.15 1.15.43 2.28.84 3.37a2.4 2.4 0 01-.54 2.53l-1.5 1.5a19.2 19.2 0 007.2 7.2l1.5-1.5a2.4 2.4 0 012.53-.54c1.09.41 2.22.69 3.37.84A2.4 2.4 0 0130 25.4z"/>
+                    </svg>
+                </div>
+                <div class="contact-info-label">PHONE</div>
+                <div class="contact-info-value">
+                    <a href="tel:062-673-2828" style="color:inherit">062-673-2828</a><br>
+                    <small><a href="tel:010-4651-7898" style="color:var(--color-text-light)">010-4651-7898</a></small>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <div class="map-section">
+        <div class="map-container">
+            <iframe
+                src="https://maps.google.com/maps?q=광주광역시+남구+서문대로+741&z=16&output=embed&hl=ko"
+                title="래미안치과 지도" allowfullscreen loading="lazy">
+            </iframe>
+            <div class="map-overlay">
+                <div class="map-overlay-title">래미안치과</div>
+                <div class="map-overlay-addr">광주광역시 남구 서문대로 741, 2F</div>
+            </div>
+        </div>
     </div>
-  </div>
-</section>
 
-<!-- 푸터 -->
-<footer id="footer">
-  <div class="container">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <p class="footer-logo">래미안치과</p><p>RAEMIAN DENTAL CLINIC</p><p>치의학 박사 · 보철과 전문의 이승호</p>
-      </div>
-      <div class="footer-contact">
-        <p>광주광역시 남구 서문대로 741, 2F</p>
-        <p>Tel: <a href="tel:062-673-2828">062-673-2828</a> · Fax: 062-673-2833</p>
-        <p><a href="mailto:konuskrone@hanmail.net">konuskrone@hanmail.net</a></p>
-      </div>
-    </div>
-    <p class="footer-copy">© 2025 래미안치과. All rights reserved.</p>
-  </div>
-</footer>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-top">
+            <div>
+                <div class="footer-logo">래미안치과</div>
+                <p style="margin-top:12px;font-size:0.85rem;">RAEMIAN DENTAL CLINIC</p>
+                <p style="margin-top:6px;font-size:0.8rem;">치의학 박사 · 보철과 전문의 이승호</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h4>진료</h4>
+                    <ul>
+                        <li><a href="#services">임플란트</a></li>
+                        <li><a href="#services">보철 (크라운·브릿지)</a></li>
+                        <li><a href="#services">틀니 (의치)</a></li>
+                        <li><a href="#services">일반치료</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>안내</h4>
+                    <ul>
+                        <li><a href="#about">병원 소개</a></li>
+                        <li><a href="#doctor">의료진</a></li>
+                        <li><a href="#gallery">시설 안내</a></li>
+                        <li><a href="#contact">오시는 길</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>연락처</h4>
+                    <ul>
+                        <li><a href="tel:062-673-2828">062-673-2828</a></li>
+                        <li><a href="tel:010-4651-7898">010-4651-7898</a></li>
+                        <li><a href="mailto:konuskrone@hanmail.net">konuskrone@hanmail.net</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 래미안치과. All rights reserved.</span>
+            <span>광주광역시 남구 서문대로 741, 2F · Tel: 062-673-2828</span>
+        </div>
+    </footer>
 
-<!-- 라이트박스 오버레이 -->
-<div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="이미지 확대">
-  <button class="lightbox-close" aria-label="닫기">&times;</button>
-  <img src="" alt="갤러리 이미지 확대" id="lightboxImg" />
-</div>
+    <script>
+        // ===== Loader =====
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+                animateHero();
+            }, 2200);
+        });
 
-<script src="js/animations.js"></script>
-<script src="js/main.js"></script>
+        // ===== Hero Animation =====
+        function animateHero() {
+            const elements = document.querySelectorAll('.hero-label, .hero-tagline, .hero-title, .hero-desc, .hero-buttons');
+            elements.forEach((el, i) => {
+                setTimeout(() => {
+                    el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, i * 200);
+            });
+            setTimeout(() => {
+                document.getElementById('heroBg').classList.add('loaded');
+            }, 300);
+        }
+
+        // ===== Navigation Scroll =====
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // ===== Scroll Reveal =====
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // ===== Custom Cursor =====
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX - 4 + 'px';
+            cursor.style.top = e.clientY - 4 + 'px';
+        });
+
+        // ===== Mobile Menu =====
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const hamburger = document.getElementById('hamburger');
+            menu.classList.toggle('open');
+            hamburger.classList.toggle('active');
+        }
+
+        // ===== Smooth scroll =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ===== Counter Animation =====
+        const statNumbers = document.querySelectorAll('.stat-number');
+        const statObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const text = el.textContent;
+                    const num = parseInt(text);
+                    if (!isNaN(num) && !el.dataset.animated) {
+                        el.dataset.animated = 'true';
+                        animateCounter(el, num, text);
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+        statNumbers.forEach(el => statObserver.observe(el));
+
+        function animateCounter(el, target, original) {
+            let current = 0;
+            const increment = target / 40;
+            const suffix = original.replace(/[\d.]/g, '');
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    el.textContent = original;
+                    clearInterval(timer);
+                } else {
+                    el.textContent = Math.floor(current) + suffix;
+                }
+            }, 30);
+        }
+    </script>
 </body>
 </html>
