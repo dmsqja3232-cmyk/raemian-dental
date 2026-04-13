@@ -1,166 +1,118 @@
 /* ===== 반응형 레이아웃 ===== */
-/* 기준: 모바일 ~767px / 태블릿 768~1199px / 데스크탑 1200px+ */
+/* 기준: 모바일 ~767px / 태블릿 768~1023px / 데스크탑 1024px+ */
 
-/* ===== 태블릿 (768px ~ 1199px) ===== */
-@media (max-width: 1199px) {
-  .services-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+/* 수평 스크롤 방지 */
+body { overflow-x: hidden; }
 
-  /* 갤러리는 가로 스크롤이므로 반응형 별도 처리 불필요 */
+/* ===== 태블릿 (768px ~ 1023px) ===== */
+@media (max-width: 1023px) {
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+  .trust-grid    { grid-template-columns: repeat(2, 1fr); }
+  .location-grid { grid-template-columns: 1fr; }
+  .trust-stats   { gap: 32px; }
 
+  /* 원장 소개: 세로 방향으로 */
   .about-grid {
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
     gap: 32px;
   }
+  .about-career { text-align: left; display: inline-block; }
 
-  .trust-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .location-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .trust-stats {
-    gap: 24px;
-  }
+  /* 갤러리 카드 크기 축소 */
+  .gallery-item { flex: 0 0 320px; }
+  .gallery-item img { height: 240px; }
 }
 
 /* ===== 모바일 (~767px) ===== */
 @media (max-width: 767px) {
-  /* 네비게이션 햄버거 메뉴 */
-  .nav-toggle {
-    display: flex;
-    z-index: 110;
-  }
+
+  /* --- 공통 --- */
+  section { padding: 52px 0; }
+  .container { padding: 0 16px; }
+
+  /* --- 네비게이션 --- */
+  .nav-toggle { display: flex; z-index: 110; }
+  .nav-cta { display: none; } /* 전화버튼 숨김 (공간 부족) */
 
   .nav-menu {
     display: none;
     position: fixed;
-    top: 0;
-    right: 0;
-    width: 75vw;
-    max-width: 320px;
-    height: 100vh;
+    top: 0; right: 0;
+    width: 75vw; max-width: 300px; height: 100vh;
     background: var(--white);
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    padding: 40px 32px;
-    gap: 20px;
-    box-shadow: -4px 0 24px rgba(0,0,0,0.12);
+    padding: 40px 28px;
+    gap: 18px;
+    box-shadow: -4px 0 24px rgba(0,0,0,0.15);
     z-index: 100;
   }
+  #navbar.nav-open .nav-menu { display: flex; }
+  .nav-menu a { color: var(--text); font-size: 16px; }
 
-  /* nav-open 클래스가 nav에 붙으면 메뉴 표시 */
-  #navbar.nav-open .nav-menu {
-    display: flex;
-  }
-
-  /* 모바일에서 메뉴 링크 색상은 항상 어두운 색 */
-  .nav-menu a {
-    color: var(--text);
-    font-size: 16px;
-  }
-
-  /* 햄버거 → X 변환 */
-  #navbar.nav-open .nav-toggle span:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
-    background: var(--text);
-  }
-  #navbar.nav-open .nav-toggle span:nth-child(2) {
-    opacity: 0;
-  }
-  #navbar.nav-open .nav-toggle span:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
-    background: var(--text);
-  }
-  .nav-toggle span {
-    transition: transform 0.3s ease, opacity 0.3s ease;
-  }
-
-  /* 모바일 메뉴 열렸을 때 토글 버튼 색상 고정 */
+  /* 햄버거 → X */
+  .nav-toggle span { transition: transform 0.3s, opacity 0.3s; }
+  #navbar.nav-open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: var(--text); }
+  #navbar.nav-open .nav-toggle span:nth-child(2) { opacity: 0; }
+  #navbar.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: var(--text); }
   #navbar.nav-open .nav-toggle span { background: var(--text); }
 
-  /* 섹션 패딩 축소 */
-  section { padding: 56px 0; }
+  /* --- Hero --- */
+  .hero-content h1   { font-size: 1.9rem; }
+  .hero-tagline      { font-size: 1.1rem; letter-spacing: 0.04em; }
+  .hero-desc         { font-size: 0.95rem; }
+  .hero-btns         { flex-direction: column; align-items: center; gap: 12px; }
+  .hero-btns a       { width: 200px; text-align: center; }
 
-  /* Hero */
-  .hero-content h1 { font-size: 2rem; }
-
-  /* 원장 소개 */
+  /* --- 원장 소개 --- */
   .about-grid {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-  .about-img { max-width: 280px; margin: 0 auto; }
-  .about-career { text-align: left; display: inline-block; }
-
-  /* 진료 카드 1열 */
-  .services-grid {
-    grid-template-columns: 1fr;
-  }
-
-  /* 갤러리 1열 */
-  .gallery-grid {
-    grid-template-columns: 1fr;
-  }
-
-  /* 신뢰 섹션 */
-  .trust-grid {
-    grid-template-columns: 1fr;
-  }
-  .trust-stats {
     flex-direction: column;
-    gap: 16px;
     align-items: center;
-  }
-
-  /* 예약 폼 */
-  .form-row {
-    grid-template-columns: 1fr;
-  }
-
-  /* 오시는 길 */
-  .location-grid {
-    grid-template-columns: 1fr;
-  }
-
-  /* 푸터 */
-  .footer-inner {
-    flex-direction: column;
+    text-align: center;
     gap: 24px;
   }
+  .about-img         { width: 200px; height: 200px; }
+  .about-career      { text-align: left; display: inline-block; }
 
-  /* 섹션 타이틀 */
-  .section-title { margin-bottom: 32px; }
+  /* --- 진료 항목 --- */
+  .services-grid     { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .service-card      { padding: 24px 14px; }
+
+  /* --- 갤러리 캐러셀 --- */
+  .gallery-item      { flex: 0 0 260px; }
+  .gallery-item img  { height: 200px; }
+  .gallery-arrow     { width: 36px; height: 36px; font-size: 0.9rem; }
+  .gallery-prev      { left: 6px; }
+  .gallery-next      { right: 6px; }
+
+  /* --- 신뢰/자격 --- */
+  .trust-grid        { grid-template-columns: 1fr; }
+  .trust-item img    { height: 240px; }
+  .trust-stats       { flex-direction: column; gap: 16px; align-items: center; }
+
+  /* --- 예약 폼 --- */
+  .reservation-form  { padding: 32px 20px; }
+  .form-row          { grid-template-columns: 1fr; }
+
+  /* --- 오시는 길 --- */
+  .location-grid     { grid-template-columns: 1fr; }
+  .map-wrap iframe   { height: 280px; }
+
+  /* --- 푸터 --- */
+  .footer-inner      { flex-direction: column; gap: 20px; }
+  .footer-brand,
+  .footer-contact    { text-align: center; }
+
+  /* --- 섹션 타이틀 --- */
+  .section-title     { font-size: 1.5rem; margin-bottom: 28px; }
 }
 
-/* ===== 데스크탑 (1200px+) ===== */
-@media (min-width: 1200px) {
-  .services-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  .gallery-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .about-grid {
-    flex-direction: row;
-    gap: 64px;
-    align-items: center;
-  }
-
-  .location-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 48px;
-    align-items: start;
-  }
-
-  .trust-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 32px;
-  }
+/* --- 아주 작은 화면 (~400px) --- */
+@media (max-width: 400px) {
+  .services-grid     { grid-template-columns: 1fr; }
+  .hero-content h1   { font-size: 1.6rem; }
+  .hero-tagline      { font-size: 1rem; }
 }
