@@ -54,38 +54,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (galleryScroll) {
     const CARD_W = 436; // 카드 420px + gap 16px
-    let autoTimer = null;
     let isPaused = false;
+    let halfWidth = 0;
 
     // 아이템 무한 루프용 복제
     const origItems = [...galleryScroll.children];
     origItems.forEach(item => galleryScroll.appendChild(item.cloneNode(true)));
-    const halfWidth = galleryScroll.scrollWidth / 2;
+
+    // 이미지 로딩 완료 후 halfWidth 계산 (이전에는 0이었던 버그 수정)
+    window.addEventListener('load', () => {
+      halfWidth = galleryScroll.scrollWidth / 2;
+    });
 
     // 자동 스크롤 (1px씩 매 14ms)
     function tick() {
-      if (isPaused) return;
+      if (isPaused || halfWidth === 0) return;
       galleryScroll.scrollLeft += 1;
-      // 복제본 끝에 도달하면 처음으로 점프 (무한 루프)
       if (galleryScroll.scrollLeft >= halfWidth) {
         galleryScroll.scrollLeft -= halfWidth;
       }
     }
-    autoTimer = setInterval(tick, 14);
+    setInterval(tick, 14);
 
     // 호버 시 일시정지
     galleryScroll.addEventListener('mouseenter', () => { isPaused = true; });
     galleryScroll.addEventListener('mouseleave', () => { isPaused = false; });
 
-    // 화살표 클릭
-    nextBtn?.addEventListener('click', () => {
-      galleryScroll.scrollLeft += CARD_W;
+    // 화살표 클릭: 자동 스크롤 잠깐 멈추고 이동
+    function arrowScroll(dir) {
+      isPaused = true;
+      galleryScroll.scrollLeft += dir * CARD_W;
       if (galleryScroll.scrollLeft >= halfWidth) galleryScroll.scrollLeft -= halfWidth;
-    });
-    prevBtn?.addEventListener('click', () => {
-      galleryScroll.scrollLeft -= CARD_W;
       if (galleryScroll.scrollLeft < 0) galleryScroll.scrollLeft += halfWidth;
-    });
+      setTimeout(() => { isPaused = false; }, 500);
+    }
+    nextBtn?.addEventListener('click', () => arrowScroll(1));
+    prevBtn?.addEventListener('click', () => arrowScroll(-1));
   }
 
   /* ===== 갤러리 라이트박스 ===== */
