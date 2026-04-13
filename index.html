@@ -279,15 +279,22 @@
             padding-right: 100px; margin-bottom: 60px;
         }
         .gallery-scroll {
-            display: flex; gap: 24px; overflow-x: auto; padding-bottom: 20px;
-            scroll-snap-type: x mandatory;
-            -ms-overflow-style: none; scrollbar-width: none;
+            display: flex; gap: 24px; overflow: hidden; padding-bottom: 0;
         }
-        .gallery-scroll::-webkit-scrollbar { display: none; }
+        .gallery-track {
+            display: flex; gap: 24px;
+            animation: galleryScroll 35s linear infinite;
+            width: max-content;
+        }
+        .gallery-track:hover { animation-play-state: paused; }
+        @keyframes galleryScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
         .gallery-item {
             flex-shrink: 0; width: 450px; height: 320px;
             border-radius: 16px; overflow: hidden;
-            scroll-snap-align: start; position: relative; cursor: pointer;
+            position: relative; cursor: pointer;
         }
         .gallery-item::after {
             content: ''; position: absolute; bottom: 0; left: 0;
@@ -693,43 +700,83 @@
             </p>
         </div>
         <div class="gallery-scroll">
-            <div class="gallery-item reveal">
-                <img src="images/reception-new.jpg" alt="접수실 · 대기실">
-                <span class="gallery-item-label">접수실 · 대기실</span>
-            </div>
-            <div class="gallery-item reveal">
-                <img src="images/treatment-room-new.jpg" alt="치료실">
-                <span class="gallery-item-label">치료실</span>
-            </div>
-            <div class="gallery-item reveal">
-                <img src="images/exterior-new.jpg" alt="병원 입구">
-                <span class="gallery-item-label">병원 입구</span>
-            </div>
-            <div class="gallery-item reveal">
-                <img src="images/waiting-room.jpg" alt="대기실">
-                <span class="gallery-item-label">대기실</span>
-            </div>
-            <div class="gallery-item reveal">
-                <img src="images/treatment-room.jpg" alt="진료실">
-                <span class="gallery-item-label">진료실</span>
-            </div>
-            <div class="gallery-item reveal">
-                <img src="images/reception.jpg" alt="접수실">
-                <span class="gallery-item-label">접수실</span>
-            </div>
-            <div class="gallery-item reveal">
-                <img src="images/xray-machine.jpg" alt="디지털 X-Ray">
-                <span class="gallery-item-label">디지털 X-Ray</span>
-            </div>
-            <div class="gallery-item reveal">
-                <img src="images/autoclave.jpg" alt="멸균 장비">
-                <span class="gallery-item-label">멸균 장비</span>
-            </div>
-            <div class="gallery-item reveal">
-                <img src="images/treatment-open.jpg" alt="진료 장면">
-                <span class="gallery-item-label">진료 장면</span>
-            </div>
-        </div>
+            <div class="gallery-track">
+                <!-- 1벌 -->
+                <div class="gallery-item">
+                    <img src="images/waiting-room.jpg" alt="대기실">
+                    <span class="gallery-item-label">대기실</span>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/treatment-room.jpg" alt="진료실">
+                    <span class="gallery-item-label">진료실</span>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/reception.jpg" alt="접수실">
+                    <span class="gallery-item-label">접수실</span>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/xray-machine.jpg" alt="디지털 X-Ray">
+                    <span class="gallery-item-label">디지털 X-Ray</span>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/autoclave.jpg" alt="멸균 장비">
+                    <span class="gallery-item-label">멸균 장비</span>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/treatment-open.jpg" alt="진료 장면">
+                    <span class="gallery-item-label">진료 장면</span>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/reception-new.jpg" alt="접수실 · 대기실">
+                    <span class="gallery-item-label">접수실 · 대기실</span>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/treatment-room-new.jpg" alt="치료실">
+                    <span class="gallery-item-label">치료실</span>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/exterior-new.jpg" alt="병원 입구">
+                    <span class="gallery-item-label">병원 입구</span>
+                </div>
+                <!-- 무한 루프용 복제 -->
+                <div class="gallery-item">
+                    <img src="images/waiting-room.jpg" alt="대기실">
+                    <span class="gallery-item-label">대기실</span>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/treatment-room.jpg" alt="진료실">
+                    <span class="gallery-item-label">진료실</span>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/reception.jpg" alt="접수실">
+                    <span class="gallery-item-label">접수실</span>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/xray-machine.jpg" alt="디지털 X-Ray">
+                    <span class="gallery-item-label">디지털 X-Ray</span>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/autoclave.jpg" alt="멸균 장비">
+                    <span class="gallery-item-label">멸균 장비</span>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/treatment-open.jpg" alt="진료 장면">
+                    <span class="gallery-item-label">진료 장면</span>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/reception-new.jpg" alt="접수실 · 대기실">
+                    <span class="gallery-item-label">접수실 · 대기실</span>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/treatment-room-new.jpg" alt="치료실">
+                    <span class="gallery-item-label">치료실</span>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/exterior-new.jpg" alt="병원 입구">
+                    <span class="gallery-item-label">병원 입구</span>
+                </div>
+            </div><!-- gallery-track -->
+        </div><!-- gallery-scroll -->
     </section>
 
     <!-- Features Section -->
